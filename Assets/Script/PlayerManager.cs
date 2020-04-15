@@ -8,8 +8,11 @@ public class PlayerManager : MonoBehaviour
     //キャラクターコントローラーを格納する変数
     CharacterController characterController;
 
-    Vector3 moveDirection = new Vector3(0, 0, 0);
+    //ゲームマネージャー
+    public GameManager gameManager;
 
+    Vector3 moveDirection = new Vector3(0, 0, 0);
+    
     //アニメーターを格納する変数
     Animator animator;
 
@@ -58,6 +61,18 @@ public class PlayerManager : MonoBehaviour
     void JumpPlayer()
     {
         moveDirection.y = JumpPower;
+    }
+
+    //プレイヤーがすれ違った時の処理
+    private void OnTriggerEnter(Collider other)
+    {
+        //アイテムとすれ違ったら
+        if(other.gameObject.tag == "Item")
+        {
+            gameManager.AddScore();
+
+            Destroy(other.gameObject);
+        }
     }
 
 }
